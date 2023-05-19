@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Best Coin in The World</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.3.4/dist/web3.min.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            /* White text color */
+            background-color: #1a1a1a;
+            /* Dark grey background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: #1a1a1a;
+            z-index: 1000;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            padding: 20px;
+            font-size: 1.2em;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .return-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .return-to-top:hover {
+            opacity: 0.7;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header nav {
+            margin-left: auto;
+        }
+
+        .header nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .header nav a:hover {
+            color: #ffffff;
+        }
+
+        .footer {
+            background-color: #1a1a1a;
+            /* Dark grey header and footer */
+            color: #ffffff;
+            /* White text in header and footer */
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            /* Full width */
+        }
+
+        .content {
+            margin-top: 0px;
+            background-color: #1a1a1a;
+            padding: 180px 20px 10px 20px;
+            /* Left and right padding are both now 20px */
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+
+
+
+        .coin {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            /* Coin animation styles */
+        }
+
+        .story h2 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .story {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            /* Change this from flex-start to center */
+            justify-content: center;
+            padding-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: justify;
+        }
+
+        .story-heading {
+            margin-bottom: 0px;
+            color: #ffffff;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .text {
+            flex: 1;
+            margin-right: 20px;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin-left: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header .logo {
+            margin-right: 10px;
+
+        }
+
+        @media (max-width: 600px) {
+            .return-to-top {
+                bottom: 20px;
+            }
+        }
+
+        #logo {
+            height: 50px;
+
+            width: 50px;
+
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .section:not(:last-child)::after {
+            content: '';
+
+            display: block;
+            width: 50%;
+
+            height: 1px;
+
+            margin: 20px auto;
+
+            background-color: #ffffff;
+
+        }
+
+
+
+        .text p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .text p:first-child {
+            margin-top: 0;
+        }
+
+        .text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .claim-story {
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .claim-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .claim-button {
+            background: none;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+
+        .claim-button:hover {
+            transform: scale(1.1);
+
+        }
+
+        .claim-story {
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+
+            text-align: justify;
+        }
+
+        @media screen and (max-width: 900px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .header nav {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            .header nav a {
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+
+            .content {
+                padding: 60px 20px 10px 20px;
+            }
+
+            .story {
+                flex-direction: column;
+                padding-top: 20px;
+            }
+
+            .text,
+            .image {
+                margin: 0;
+            }
+
+            .image img {
+                width: 80%;
+                height: auto;
+            }
+
+            .content {
+                margin-top: 140px;
+            }
+
+            #logo {
+                height: 40px;
+                width: 40px;
+            }
+
+            .story-heading {
+                font-size: 20px;
+            }
+
+            .text p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="header">
+            <img src="./tribute2w.png" alt="Logo" id="logo" />
+            <h1 style="margin-left: 10px">Tribute ($TBC) - The Best Coin in The World</h1>
+            <nav>
+                <a href="#story">Story</a>
+                <a href="#claim">Buy</a>
+                <a href="#faq">FAQ</a>
+                <a href="#tokenomics">Tokenomics</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+        <a href="#" class="return-to-top">Return to Top</a>
+    </div>
+
+    <div class="content">
+        <div class="section" id="story">
+            <h2 class="story-heading">Story of Tribute <img style="margin-left: 10px;width: 24px;height: 24px;"
+                    src="./tribute2w.png" alt="Logo" id="logo" />
+            </h2>
+
+            <div class="story">
+
+                <div class="text">
+                    <p>
+                        In an age long past, when the digital realm of the blockchain was
+                        still a vast, uncharted expanse, there existed two companions, Jack
+                        and Kyle. These were not ordinary wanderers; they were developers,
+                        architects of code, etching their vision into the indelible fabric
+                        of the blockchain. Their quest was nothing short of monumental - to
+                        birth the most exemplary coin the world had ever seen.
+                    </p>
+
+                    <p>
+                        On an eve of destiny, under the spectral glow of countless lines of
+                        code, they toiled in a marathon of creation. The room, bathed in the
+                        harsh, electric blue light, was a crucible where something
+                        extraordinary was taking shape. Abruptly, from the tangled labyrinth
+                        of their screens, a figure began to emerge. It was a luminous,
+                        holographic manifestation of the elusive entity known only as
+                        Satoshi Nakamoto.
+                    </p>
+
+                    <p>
+                        The figure spoke in cryptic riddles and complex equations, guiding
+                        their hands and minds to the climax of their creation. In the
+                        chilling silence that followed, the glow from their screens cast
+                        long shadows across their awestruck faces. They had done it. They
+                        had created the best coin the world had ever seen.
+                    </p>
+
+                    <p>
+                        However, if you dare to ask Jack and Kyle to recount the tale of the
+                        best coin in the world, they might falter. The exact specifics have faded with time, blurred by
+                        the excitement of
+                        invention and the exhaustion of their endeavor. What was once considered the best coin in the
+                        world now existed as a hazy memory, its details elusive and faint.
+                    </p>
+
+                    <p>
+                        Yet, they will assure you of one thing: while it may no longer hold the title of the best coin
+                        in the world, it remains a powerful tribute. A tribute to the limitless potential
+                        of the blockchain, a homage to the power of human ingenuity. A tribute to their relentless quest
+                        and the extraordinary journey they had embarked on.
+                    </p>
+
+                    <p>
+                        And that coin, that gleaming testament to their quest, was merely
+                        the opening chapter of their grand adventure. An adventure that,
+                        even now, is only just beginning.
+                    </p>
+
+                </div>
+                <div class="image">
+                    <img src="./3szsDrzWBwDUCp5leeFy--1--xil8m.jpg" alt="Image related to the story" />
+                </div>
+            </div>
+
+        </div>
+        <div class="section" id="extra-story">
+            <div class="story">
+                <div class="image">
+                    <img src="./cursed.jpg" alt="Image related to the story" />
+                </div>
+                <div style="margin-left: 40px" class=" text">
+                    <p>In the wake of the coin's creation, its allure stretched across the digital landscape, luring in
+                        all who dared
+                        venture into the realm of the blockchain. Yet, this was no ordinary coin. It was a masterpiece
+                        of code, a testament
+                        to human ingenuity, and it bore a unique, enigmatic trait, a curse known as: </p>
+                    <p style="text-align:right"><b>"The Curse of
+                            the
+                            Weak Hands"</b>.</p>
+
+                    <p>This curse was an intricate part of the coin's design, imprinted deep within its indelible
+                        blockchain fabric.
+                        Whenever the coin changed hands, a fee was extracted, a tribute to the coin's inherent value and
+                        a reminder of its
+                        creators' original intent: to encourage long-term belief in their creation.</p>
+
+                    <p>But there was a way to lift the curse. If a holder possessed the coin for exactly 42 hours, a
+                        seemingly arbitrary
+                        duration yet imbued with a veiled significance, the curse would be broken, and they could then
+                        pass on the coin
+                        without the customary fee.</p>
+
+                    <p>However, should a holder succumb to the lure of immediate profit and relinquish the coin before
+                        the designated time,
+                        the curse would renew itself. The countdown would reset, and the 42-hour wait would begin anew
+                        for the new holder.
+                    </p>
+
+                    <p>In a fascinating twist, the curse had a finite lifespan. Once only 21 billion coins remained, the
+                        curse would be
+                        permanently lifted. This feature was a testament to the coin's ultimate scarcity and the balance
+                        between creation
+                        and preservation.</p>
+
+                    <p>As Jack and Kyle watched their creation make its way through the intricate networks of the
+                        digital world, they knew
+                        their adventure was far from over. They had merely set the stage for a grand saga in the annals
+                        of the blockchain, a
+                        saga that was only just beginning.</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="section" id="journey">
+            <div class="claim-section">
+                <img style="width: 20%; height: 20%; border-radius: 20px; margin-top: 20px;" src="./eth.jpg"
+                    alt="Image of the journey" />
+                <div class="claim-story">
+                    <p>Guided by the whispers of the ancient, the adventurers embarked on their quest to secure the
+                        luminous
+                        token. Their path, shrouded in mystery, led them across the highest mountains and through the
+                        deepest
+                        valleys, with their resolve unbroken in the face of countless trials and tribulations.</p>
+                    <p>When the journey seemed most dire, they discovered a forgotten shrine, filled with echoes of the
+                        past. It
+                        was here that they found a parchment bearing the inscriptions of an ethereal coin - the luminous
+                        token
+                        they had been searching for. This token, created by a lone developer out of the ashes of
+                        devastation and
+                        hardship, was said to have the power to unlock unimaginable wealth.</p>
+                    <p>Strengthened by their discovery, they returned to the ancient chamber, holding the ethereal coin
+                        high in
+                        their hands. As it met with the light from their torches, it shimmered with a glow that
+                        reflected off
+                        the ancient walls, illuminating inscriptions that had previously remained hidden. It was the
+                        Tribute
+                        token, the key to the age-old machine. </p>
+                    <p>With newfound hope and determination, they used the token. The machine stirred to life, revealing
+                        the
+                        precious Tribute they had fought so hard to attain. And so, they became not only the bearers of
+                        the
+                        Tribute but the bearers of a new era. </p>
+                    <p
+                        style="font-style: italic;font-size: 10;font-family: Georgia, 'Times New Roman', Times, serif;color: darkgray;">
+                        BUY $TBC, continue our journey. Together, we can unlock the future.</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                <button id="claimButton" class="claim-button" onclick="buyToken()">
+                    <img style="width: 100px; height: 100px;margin-bottom: 60px;margin-top: 20px;" src="./tribute2w.png"
+                        alt="BUY TRIBUTE" />
+                </button>
+
+                <script>
+                    function buyToken() {
+                        var tokenAddress = "0x1234567890ABCDEF";
+                        var uniswapURL = "https://app.uniswap.org/#/swap?inputCurrency=" + tokenAddress;
+                        window.open(uniswapURL, "_blank");
+                    }
+                </script>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="section" id="faq">
+        <style>
+            .faq-container {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .faq {
+                text-align: left;
+            }
+
+            .faq-item {
+                margin-bottom: 20px;
+            }
+
+            .question {
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+            }
+
+            .answer {
+                font-size: 16px;
+                margin-top: 10px;
+                line-height: 1.4;
+            }
+
+            .faq-section {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 40px;
+                background-color: #1a1a1a;
+                color: #ffffff;
+                border-radius: 8px;
+            }
+
+            .section-heading {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .faq-item {
+                margin-bottom: 20px;
+            }
+
+            .question {
+                font-weight: bold;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            .answer {
+                display: none;
+                font-size: 16px;
+                color: #e0e0e0;
+            }
+
+            .faq-item.active .answer {
+                display: block;
+            }
+        </style>
+        <div class="faq-section">
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="question">Question: Is it safe to use Tribute token?</div>
+                        <div class="answer">Answer: The Tribute token is designed with security in mind. The token
+                            contract has been carefully
+                            audited and does not have any mint or abusable functions. The only function available is
+                            the
+                            Whitelist, which is
+                            used to add current and future liquidity pools. This ensures that buyers are not
+                            affected by
+                            diminishing tax fees.
+                            Additionally, the Whitelist function allows us to add exchange wallets, ensuring that
+                            tax
+                            rules do not impact their
+                            withdrawals and transactions, allowing us to easily comply with their regulations.</div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="question">Question: What is the total supply of Tribute tokens?</div>
+                        <div class="answer">Answer: The total supply of Tribute tokens is 42 billion, inspired by
+                            the
+                            famous phrase "The
+                            answer to life, the universe, and everything." In a playful homage to this concept, the
+                            token supply has been
+                            set to 42 billion. The Tribute ecosystem implements a deflationary mechanism through
+                            taxes.
+                            If non-burned (dead
+                            address) tokens reach 21 billion, which is half of the initial supply, the tax is
+                            completely
+                            removed. This means
+                            that the tax feature creates deflationary pressure until only 21 billion Tribute tokens
+                            are
+                            left in circulation.
+                            This design ensures the scarcity and value preservation of the remaining tokens.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="question">Question: How does the tax mechanism work?</div>
+                        <div class="answer">Answer: Whenever someone sends or receives Tribute tokens, a diminishing
+                            tax
+                            rate comes into
+                            effect. It starts with a total tax fee of 10% and gradually decreases to 0% if you can
+                            hold
+                            the tokens for 42
+                            hours. This mechanism, known as the "Curse of the Weak Hands," discourages short-term
+                            trading and promotes
+                            long-term holding. It also helps combat bots, as they would be subject to the maximum
+                            tax
+                            rate if they attempt
+                            to manipulate transactions. If you don't send or receive Tribute tokens for 42 hours,
+                            you
+                            can make a transaction
+                            with no fee applied. It's important to note that every send or receive of Tribute tokens
+                            resets this 42-hour
+                            timer.</div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="question">
+                            Question: How can we be included in the whitelist to not be affected by the tax?
+                        </div>
+                        <div class="answer">
+                            Answer: If you are an exchange or a liquidity pool and would like to be included in the
+                            whitelist to avoid being
+                            affected by the tax, please use one of the available options to contact the developer.
+                            Please note that the
+                            whitelist is specifically designed for liquidity pools or exchanges. As the community
+                            grows, the management of the
+                            whitelist command will be handed over to a DAO (Decentralized Autonomous Organization)
+                            with a fair voting mechanism.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="question">Question: Who is developing this token?</div>
+                        <div class="answer">
+                            Answer: This token is the labor of love and resilience by a single, hobbyist Solidity
+                            developer who found
+                            strength in adversity. I was faced with the devastating loss of my life savings and home
+                            due to a severe
+                            earthquake in Turkey. It was a chapter of hardship and despair. But amidst the rubble, I
+                            found a spark of hope
+                            and determination. That's when THE BEST COIN IN THE WORLD was born. During these
+                            challenging times, I had
+                            moments of solitude which gave me a chance to create and contribute something to the
+                            world. This token is more
+                            than just a project for me; it's a testament to human resilience and the will to rise
+                            even when the odds are
+                            against you.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const faqItems = document.querySelectorAll(".faq-item");
+
+                faqItems.forEach(function (item) {
+                    const question = item.querySelector(".question");
+                    const answer = item.querySelector(".answer");
+
+                    question.addEventListener("click", function () {
+                        item.classList.toggle("active");
+                    });
+                });
+            });
+        </script>
+    </div>
+    <div class="section" id="tokenomics">
+        <style>
+            .chart-legend ul {
+                padding: 0;
+                margin: 0;
+            }
+
+            .chart-legend li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .legend-color {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                margin-right: 6px;
+                border-radius: 50%;
+            }
+
+            .legend-label {
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .legend-info {
+                flex: 1;
+                text-align: justify;
+            }
+        </style>
+        <div class="section" id="tokenomics">
+            <h2 class="section-heading">Tokenomics</h2>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+                <div class="chart-legend">
+                    <ul>
+                        <li>
+                            <span class="legend-color" style="background-color: #ff0000;"></span>
+                            <span class="legend-label">Developer</span>
+                            <span class="legend-info">7% - Allocation for developers and team members.</span>
+                        </li>
+                        <li>
+                            <span class="legend-color" style="background-color: #00ff00;"></span>
+                            <span class="legend-label">Liquidity Creation</span>
+                            <span class="legend-info">93% - Reserved for liquidity creation (locked forever)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script>
+        var data = [7, 93];
+        var labels = ["Developer", "Liquidity Creation"];
+
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: ["#ff0000", "#00ff00"]
+                }],
+                labels: labels
+            },
+            options: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true
+                    }
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        });
+    </script>
+
+
+
+
+    </div>
+    <div class="section" id="roadmap">
+        <div style="background-color: #1a1a1a; color: #ffffff; padding: 80px 0;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 40px;">Roadmap</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center;">
+                    <div class="roadmap-item completed">
+                        <div class="roadmap-icon">
+                            <span class="checkmark"></span>
+                        </div>
+                        <h3 style="font-size: 24px; font-weight: bold; margin-top: 20px;">Phase 1</h3>
+                        <p style="font-size: 18px;">Create token contract. Launch website.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon">
+                            <span class="sandglass"></span>
+                        </div>
+                        <h3 style="font-size: 24px; font-weight: bold; margin-top: 20px;color: #777777">Phase 2</h3>
+                        <p style="font-size: 18px; color: #777777;">Create a community, with honest holders.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon">
+                            <span class="sandglass"></span>
+                        </div>
+                        <h3 style="font-size: 24px; font-weight: bold; margin-top: 20px;color: #777777">Phase 3</h3>
+                        <p style="font-size: 18px; color: #777777;">If we have enough community start working on The
+                            Best
+                            DAO
+                            in
+                            The World</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .roadmap-item {
+                flex-basis: 300px;
+                position: relative;
+                background-color: #f5f5f5;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .roadmap-item.completed {
+                background-color: #ff8a80;
+            }
+
+            .roadmap-icon {
+                position: absolute;
+                top: -20px;
+                left: calc(50% - 15px);
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                border-radius: 50%;
+            }
+
+            .checkmark::before {
+                content: '\2713';
+            }
+
+            .sandglass::before {
+                content: '\231B';
+            }
+        </style>
+    </div>
+    <div class="section" id="contact">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 40px;">Contact Us</h2>
+            <div style="display: flex; justify-content: center; gap: 20px;">
+                <a href="https://twitter.com/TributeTBC" target="_blank" style="text-decoration: none; color: #ffffff;">
+                    <i class="fab fa-twitter fa-2x"></i>
+                    <span style="font-size: 18px; font-weight: bold;">Twitter</span>
+                </a>
+                <a href="https://t.me/tributeoffical" target="_blank" style="text-decoration: none; color: #ffffff;">
+                    <i class="fab fa-telegram fa-2x"></i>
+                    <span style="font-size: 18px; font-weight: bold;">Telegram</span>
+                </a>
+                <a href="https://etherscan.io/address/your_contract_address" target="_blank"
+                    style="text-decoration: none; color: #ffffff;">
+                    <i class="fa-brands fa-ethereum fa-2x"></i>
+                    <span style="font-size: 18px; font-weight: bold;">Contract</span>
+                </a>
+            </div>
+        </div>
+        <script src="https://kit.fontawesome.com/17381ddf1c.js" crossorigin="anonymous"></script>
+    </div>
+
+    <div class="footer">
+        <div class="disclaimer"
+            style="max-width: 90%; text-align: right; font-size: 10px; line-height: 1;  font-family: 'Roboto', Arial, sans-serif">
+            <p>DISCLAIMER: The Tribute token is a fictional concept created for demonstration and educational
+                purposes only. It does
+                not represent a real cryptocurrency or financial asset. Any references to investing or financial
+                advice are purely
+                hypothetical and should not be considered as actual investment recommendations. The Tribute
+                token has no real-world
+                value and cannot be purchased or traded. Please treat it as a fictional token used for
+                storytelling purposes only.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
