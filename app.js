@@ -21,23 +21,21 @@ const DAI_ABI = [  // Abbreviated ABI. Only includes necessary parts for fetchin
         "type": "function"
     }
 ];
-
 function connectWallet() {
     if (typeof window.ethereum !== 'undefined') {
         web3 = new Web3(window.ethereum);
         window.ethereum.enable().then(accounts => {
-            userAccount = accounts[0];
-            fetchDAIBalance();
-        });
-    } else if (typeof window.web3 !== 'undefined') {
-        web3 = new Web3(window.web3.currentProvider);
-        web3.eth.getAccounts().then(accounts => {
-            userAccount = accounts[0];
-            fetchDAIBalance();
+            fetchNetwork();
         });
     } else {
         alert('MetaMask not detected. Please install it first.');
     }
+}
+
+function fetchNetwork() {
+    web3.eth.net.getNetworkType().then(networkType => {
+        document.getElementById('networkName').textContent = networkType.charAt(0).toUpperCase() + networkType.slice(1); // Capitalize the first letter
+    });
 }
 
 
